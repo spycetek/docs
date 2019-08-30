@@ -1,4 +1,4 @@
-# App configuration
+# アプリ設定
 
 - [Webserver configuration](#webserver-configuration)
     - [Apache configuration](#apache-configuration)
