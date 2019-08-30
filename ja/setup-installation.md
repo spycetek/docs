@@ -6,9 +6,9 @@
 - [コマンドラインを使ったインストール](#command-line-installation)
 - [インストール後の手順](#post-install-steps)
     - [インストールファイルの削除](#delete-install-files)
-    - [設定のレビュー](#config-review)
+    - [コンフィグレーションのレビュー](#config-review)
     - [スケジューラーのセットアップ](#crontab-setup)
-    - [queue workersのセットアップ](#queue-setup)
+    - [キューワーカーのセットアップ](#queue-setup)
 
 Octoberをインストールするには2つの方法があります。 [インストーラー](#wizard-installation) を使う方法か、 [コマンドラインでのインストール](../console/commands#console-install) の説明に沿ってインストールする方法があります。 インストールする前に、サーバが条件と合っているか確認してください。
 
@@ -25,9 +25,9 @@ October CMSには下記のウェブホスティングサーバが必要です。
 1. ZipArchive PHP Library
 1. GD PHP Library
 
-PHP JSON と XML extensionsのインストールが必要なディストリビューションもあります。　例えば, when using Ubuntu this can be done via `apt-get install php7.0-json` and `apt-get install php7.0-xml` respectively.
+PHP JSON と XML extensionsのインストールが必要なディストリビューションもあります。　例えばUbuntuの場合、それぞれ `apt-get install php7.0-json` と `apt-get install php7.0-xml` でインストールできます。
 
-SQLサーバデータベースエンジンを使う場合は、[group concatenation](https://groupconcat.codeplex.com/)ユーザ定義集計？のインストールが必要です。
+SQLサーバデータベースエンジンを使う場合は、[group concatenation](https://groupconcat.codeplex.com/)user-defined aggregateのインストールが必要です。
 
 <a name="wizard-installation"></a>
 ## インストーラを使ったインストール
@@ -37,66 +37,67 @@ Octorberをインストールするにはインストーラを使用するのが
 1. 空のサーバー上のディレクトリを準備してください。これがサブディレクトリ、ドメインルート、サブドメインになります。？
 1. インストーラの圧縮ファイルを[ダウンロード](http://octobercms.com/download)します。
 1. 準備したディレクトリでインストーラの圧縮ファイルを解凍します。
-1. Grant writing permissions on the installation directory and all its subdirectories and files.
-1. Navigate to the install.php script in your web browser.
-1. Follow the installation instructions.
+1. インストールディレクトリとそのすべてのサブディレクトリとファイルに対する書き込み権限を付与します。
+1. Webブラウザーでinstall.phpスクリプトに移動します。
+1. インストール手順に従って進めます。
 
 ![image](https://github.com/octobercms/docs/blob/master/images/wizard-installer.png?raw=true) {.img-responsive .frame}
 
 <a name="troubleshoot-installation"></a>
 ### トラブルシューティング
 
-1. **An error 500 is displayed when downloading the application files**: You may need to increase or disable the timeout limit on your webserver. For example, Apache's FastCGI sometimes has the `-idle-timeout` option set to 30 seconds.
+1. **アプリケーションファイルのダウンロード時にError 500が表示される**: Webサーバのタイムアウト時間を延長するか設定を無効にする必要があります。例えばApache's FastCGIでは `-idle-timeout` オプションが30秒に設定されていることがあります。
 
-1. **A blank screen is displayed when opening the application**: Check the permissions are set correctly on the `/storage` files and folders, they should be writable for the web server.
+1. **アプリケーションを開いた時にブランクの画面が表示される**: `/storage`ファイルとフォルダはWebサーバーに対して書き込み可能である必要があるため、アクセス許可が正しく設定されているかを確認してください。
 
-1. **An error code "liveConnection" is displayed**: The installer will test a connection to the installation server using port 80. Check that your webserver can create outgoing connections on port 80 via PHP. Contact your hosting provider or this is often found in the server firewall settings.
+1. **エラーコード"liveConnection"が表示される**: The installer will test a connection to the installation server using port 80. Check that your webserver can create outgoing connections on port 80 via PHP. Contact your hosting provider or this is often found in the server firewall settings.インストーラはポート80を使用してインストールサーバへの接続テストを行います。WebサーバーがPHP経由でポート80に接続できることを確認してください。サーバファイアウォールの設定でよく見られるため、 ホスティングプロバイダにお問い合わせください。
 
-1. **The back-end area displays "Page not found" (404)**: If the application cannot find the database then a 404 page will be shown for the back-end. Try enabling [debug mode](../setup/configuration#debug-mode) to see the underlying error message.
+1. **バックエンドエリアに"Page not found" (404)と表示される**: アプリケーションがデータベースを見つけることができない場合に、バックエンドの404ページが表示されます。[デバックモード](../setup/configuration#debug-mode)を有効にして、もととなっているエラーメッセージを確認してください。
 
-> **Note:** A detailed installation log can be found in the `install_files/install.log` file.
+> **備考:** インストールログの詳細は `install_files/install.log` ファイルにあります。
 
 <a name="command-line-installation"></a>
-## Command-line installation
+## コマンドラインを使ったインストール
 
-If you feel more comfortable with a command-line or want to use composer, there is a CLI install process on the [Console interface page](../console/commands#console-install).
+コマンドラインを使い慣れている、または、コンポーザを使いたい場合は、 [コンソールインターフェースページ](../console/commands#console-install)にCLIのインストール手順があります。
 
 <a name="post-install-steps"></a>
-## Post-installation steps
+## インストール後の手順
 
-There are some things you may need to set up after the installation is complete.
+インストール完了後に、いくつかの設定が必要な場合があります。
 
 <a name="delete-install-files"></a>
-### Delete installation files
+### インストールファイルの削除
 
-If you have used the [Wizard installer](#wizard-installation) you should delete the installation files for security reasons. October will never delete files from your system automatically, so you should delete these files and directories manually:
+[インストーラ](#wizard-installation)を使用した場合、セキュリティ上の理由からインストールファイルを削除してください。Octorberは自動的にファイルを削除しないため、下記のファイルとディレクトリを手動で削除してくださ。
 
     install_files/      <== Installation directory
     install.php         <== Installation script
 
 <a name="config-review"></a>
-### Review configuration
+### コンフィグレーションのレビュー
 
-Configuration files are stored in the **config** directory of the application. While each file contains descriptions for each setting, it is important to review the [common configuration options](../setup/configuration) available for your circumstances.
+コンフィグレーションファイルは、アプリケーションの **config** ディレクトリに保存されます。各ファイルには各設定についての説明が含まれていますが、状況に応じて利用可能な[一般的なコンフィグレーションのオプション](../setup/configuration)を確認することが重要です。
 
-For example, in production environments you may want to enable [CSRF protection](../setup/configuration#csrf-protection). While in development environments, you may want to enable [bleeding edge updates](../setup/configuration#edge-updates).
+例えば、本番環境では [CSRF 保護](../setup/configuration#csrf-protection)を有効にすることができ、開発環境では [最新版への更新](../setup/configuration#edge-updates)を有効にすることができます。
 
-While most configuration is optional, we strongly recommend disabling [debug mode](../setup/configuration#debug-mode) for production environments. You may also want to use a [public folder](../setup/configuration#public-folder) for additional security.
+ほとんどの設定はオプションですが、本番環境では[デバックモード](../setup/configuration#debug-mode) を無効にすることを強くお勧めします。 セキュリティ強化のために[パブリックフォルダ](../setup/configuration#public-folder) の使用も可能です。
 
 <a name="crontab-setup"></a>
-### Setting up the scheduler
+### スケジューラーのセットアップ
 
 For *scheduled tasks* to operate correctly, you should add the following Cron entry to your server. Editing the crontab is commonly performed with the command `crontab -e`.
+*スケジジュールされたタスク* が正しく動作するには、次のCronエントリをサーバーに追加する必要があります。 Cronタブの編集は、一般的にコマンド `crontab -e`で実行されます。
 
     * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
 
-Be sure to replace **/path/to/artisan** with the absolute path to the *artisan* file in the root directory of October. This Cron will call the command scheduler every minute. Then October evaluates any scheduled tasks and runs the tasks that are due.
+必ず **/path/to/artisan** を、Octorberのルートディレクトリにある *artisan* ファイルへの絶対パスに置き換えてください。このCronは毎分コマンドスケジューラーをコールします。そしてスケジュールされたタスクを算定して、期限のあるタスクを実行します。
 
-> **Note**: If you are adding this to `/etc/cron.d` you'll need to specify a user immediately after `* * * * *`.
+> **備考**: これを `/etc/cron.d` に追加する場合、`* * * * *`のすぐ後にユーザを指定する必要があります。
 
 <a name="queue-setup"></a>
-### Setting up queue workers
+### キューワーカーのセットアップ
 
-You may optionally set up an external queue for processing *queued jobs*, by default these will be handled asynchronously by the platform. This behavior can be changed by setting the `default` parameter in the `config/queue.php`.
+*queued jobs* を処理するための外部キューをオプションで設定できます。デフォルトでは、これらはプラットフォームによって非同期的に処理されます。 この動作は`config/queue.php`の`default`のパラメーターを設定することで変更できます。
 
-If you decide to use the `database` queue driver, it is a good idea to add a Crontab entry for the command `php artisan queue:work --once` to process the first available job in the queue.
+`database`キュードライバーを使用する場合、キューで始めに使用可能なジョブを処理するために、コマンド`php artisan queue:work --once`のためのCrontタブエントリの追加をお勧めします。
