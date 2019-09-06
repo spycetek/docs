@@ -25,7 +25,7 @@ October CMSには下記のウェブホスティングサーバが必要です。
 1. ZipArchive PHP Library
 1. GD PHP Library
 
-PHP JSON と XML extensionsのインストールが必要なディストリビューションもあります。　例えばUbuntuの場合、それぞれ `apt-get install php7.0-json` と `apt-get install php7.0-xml` でインストールできます。
+PHP JSON と XML extensionsのインストールが必要なディストリビューションもあります。例えばUbuntuの場合、それぞれ `apt-get install php7.0-json` と `apt-get install php7.0-xml` でインストールできます。
 
 SQLサーバデータベースエンジンを使う場合は、[group concatenation](https://groupconcat.codeplex.com/)user-defined aggregateのインストールが必要です。
 
@@ -34,7 +34,7 @@ SQLサーバデータベースエンジンを使う場合は、[group concatenat
 
 Octorberをインストールするにはインストーラを使用するのが推奨されています。 コマンドラインを使ってインストールするよりもシンプルで、特別なスキルも必要ありません。
 
-1. 空のサーバー上のディレクトリを準備してください。これがサブディレクトリ、ドメインルート、サブドメインになります。？
+1. 空のサーバー上のディレクトリを準備してください。これがサブディレクトリ、ドメインルート、サブドメインになります。
 1. インストーラの圧縮ファイルを[ダウンロード](http://octobercms.com/download)します。
 1. 準備したディレクトリでインストーラの圧縮ファイルを解凍します。
 1. インストールディレクトリとそのすべてのサブディレクトリとファイルに対する書き込み権限を付与します。
@@ -50,7 +50,7 @@ Octorberをインストールするにはインストーラを使用するのが
 
 1. **アプリケーションを開いた時にブランクの画面が表示される**: `/storage`ファイルとフォルダはWebサーバーに対して書き込み可能である必要があるため、アクセス許可が正しく設定されているかを確認してください。
 
-1. **エラーコード"liveConnection"が表示される**: The installer will test a connection to the installation server using port 80. Check that your webserver can create outgoing connections on port 80 via PHP. Contact your hosting provider or this is often found in the server firewall settings.インストーラはポート80を使用してインストールサーバへの接続テストを行います。WebサーバーがPHP経由でポート80に接続できることを確認してください。サーバファイアウォールの設定でよく見られるため、 ホスティングプロバイダにお問い合わせください。
+1. **エラーコード"liveConnection"が表示される**: インストーラはポート80を使用してインストールサーバへの接続テストを行います。WebサーバーがPHP経由でポート80に接続できることを確認してください。サーバファイアウォールの設定でよく見られるため、 ホスティングプロバイダにお問い合わせください。
 
 1. **バックエンドエリアに"Page not found" (404)と表示される**: アプリケーションがデータベースを見つけることができない場合に、バックエンドの404ページが表示されます。[デバックモード](../setup/configuration#debug-mode)を有効にして、もととなっているエラーメッセージを確認してください。
 
@@ -77,7 +77,7 @@ Octorberをインストールするにはインストーラを使用するのが
 <a name="config-review"></a>
 ### コンフィグレーションのレビュー
 
-コンフィグレーションファイルは、アプリケーションの **config** ディレクトリに保存されます。各ファイルには各設定についての説明が含まれていますが、状況に応じて利用可能な[一般的なコンフィグレーションのオプション](../setup/configuration)を確認することが重要です。
+コンフィグレーションファイルは、アプリケーションの **config** ディレクトリに保存されます。各ファイルには各設定についての説明が含まれていますが、状況に応じて利用可能な[一般的な設定オプション](../setup/configuration)を確認することが重要です。
 
 例えば、本番環境では [CSRF 保護](../setup/configuration#csrf-protection)を有効にすることができ、開発環境では [最新版への更新](../setup/configuration#edge-updates)を有効にすることができます。
 
@@ -86,8 +86,7 @@ Octorberをインストールするにはインストーラを使用するのが
 <a name="crontab-setup"></a>
 ### スケジューラーのセットアップ
 
-For *scheduled tasks* to operate correctly, you should add the following Cron entry to your server. Editing the crontab is commonly performed with the command `crontab -e`.
-*スケジジュールされたタスク* が正しく動作するには、次のCronエントリをサーバーに追加する必要があります。 Cronタブの編集は、一般的にコマンド `crontab -e`で実行されます。
+*スケジジュールされたタスク* が正しく動作するには、次のCronエントリをサーバーに追加する必要があります。 Crontabの編集は、一般的にコマンド `crontab -e`で実行されます。
 
     * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
 
@@ -100,4 +99,4 @@ For *scheduled tasks* to operate correctly, you should add the following Cron en
 
 *queued jobs* を処理するための外部キューをオプションで設定できます。デフォルトでは、これらはプラットフォームによって非同期的に処理されます。 この動作は`config/queue.php`の`default`のパラメーターを設定することで変更できます。
 
-`database`キュードライバーを使用する場合、キューで始めに使用可能なジョブを処理するために、コマンド`php artisan queue:work --once`のためのCrontタブエントリの追加をお勧めします。
+`database`キュードライバーを使用する場合、`php artisan queue:work --once`コマンドをCrontabに追加して、キュー内のジョブを１つずつ処理することをお勧めします。
